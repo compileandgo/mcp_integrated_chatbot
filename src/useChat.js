@@ -5,7 +5,7 @@ import React, { useCallback, useState } from "react";
  * @returns {{streamContent: string, isLoading: boolean, error: string, generateStream: Function}} - An object containing content and methods
  */
 
-const useChat = () => {
+const useChat = ( endpoint = "http://localhost:5000/api/stream" ) => {
   const [streamContent, setStreamContent] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -32,7 +32,7 @@ const useChat = () => {
       setIsLoading(true);
 
       try {
-        const res = await fetch("http://localhost:5000/api/stream", {
+        const res = await fetch(endpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -54,7 +54,7 @@ const useChat = () => {
         setIsLoading(false);
       }
     },
-    [readStream]
+    [readStream, endpoint]
   );
 
   return {
